@@ -1,7 +1,10 @@
+#include <assembly.h>
 #include <matrix.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+int n;
 
 void ask_n(int *n) {
     scanf("%d", n);
@@ -12,36 +15,59 @@ void ask_n(int *n) {
 }
 
 void print_elapsed_time(clock_t time) {
-    printf("\nTempo gasto: %0.5f ms\n", ((double)time) / CLOCKS_PER_SEC * 1000);
+    printf("Tempo gasto: %0.5f ms\n", ((double)time) / CLOCKS_PER_SEC * 1000);
 }
 
 /**
  * Prints A x B x C and elapsed time using C language
  */
-void calculate_matrix_c(int **matrix_a, int **matrix_b, int **matrix_c, int n) {
+void run_c(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
+    int result_a_b[n][n];
+    int result_ab_c[n][n];
+
     clock_t elapsed_time = clock();
-
-    int **result = multiply_matrices(multiply_matrices(matrix_a, matrix_b, n), matrix_c, n);
-    
+    multiply_matrices(matrix_a, matrix_b, result_a_b);
+    multiply_matrices(result_a_b, matrix_c, result_ab_c);
     elapsed_time = clock() - elapsed_time;
-    print_elapsed_time(elapsed_time);
 
-    print_matrix(result, n, "A x B x C");
-    free(result);
+    print_matrix(result_ab_c, "A x B x C (C)");
+    print_elapsed_time(elapsed_time);
+}
+
+/**
+ * Prints A x B x C and elapsed time using NASM language
+ */
+void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
+    int result_a_b[n][n];
+    int result_ab_c[n][n];
+
+    clock_t elapsed_time = clock();
+    multiply_matrices_nasm(matrix_a, matrix_b, result_a_b, n);
+    multiply_matrices_nasm(result_a_b, matrix_c, result_ab_c, n);
+    elapsed_time = clock() - elapsed_time;
+
+    print_matrix(result_ab_c, "A x B x C (nasm)");
+    print_elapsed_time(elapsed_time);
 }
 
 int main() {
-    int n;
     printf("Digite o tamanho da matriz NxN: ");
     ask_n(&n);
 
-    int **matrix_a = create_matrix(n);
-    int **matrix_b = create_matrix(n);
-    int **matrix_c = create_matrix(n);
+    int matrix_a[n][n];
+    int matrix_b[n][n];
+    int matrix_c[n][n];
 
-    populate_matrix(matrix_a, n, "A");
-    populate_matrix(matrix_b, n, "B");
-    populate_matrix(matrix_c, n, "C");
+    populate_matrix(matrix_a);
+    populate_matrix(matrix_b);
+    populate_matrix(matrix_c);
 
-    calculate_matrix_c(matrix_a, matrix_b, matrix_c, n);
+    print_matrix(matrix_a, "A");
+    print_matrix(matrix_b, "B");
+    print_matrix(matrix_c, "C");
+
+    run_c(matrix_a, matrix_b, matrix_c);
+    run_nasm(matrix_a, matrix_b, matrix_c);
+
+    return 0;
 }

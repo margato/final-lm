@@ -1,6 +1,7 @@
 #pragma once
 
-void populate_matrix(int **matrix, int n, char *matrix_name);
-void print_matrix(int **matrix, int n, char *matrix_name);
-int **create_matrix(int n);
-int **multiply_matrices(int **matrix_a, int **matrix_b, int n);
+extern int n;
+
+void populate_matrix(int matrix[][n]);
+void print_matrix(int matrix[][n], char *matrix_name);
+void multiply_matrices(int matrix_a[][n], int matrix_b[][n], int result[][n]);

@@ -1,22 +1,18 @@
 #include <matrix.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-void populate_matrix(int **matrix, int n, char *matrix_name) {
-    int value;
-    printf("\nInsira os valores para a matrix %s\n", matrix_name);
-    for (int i = 0; i < n; i++) {
+void populate_matrix(int matrix[][n]) {
+    for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++) {
-            printf("Matrix %s [%d][%d]: ", matrix_name, i, j);
-            scanf("%d", &value);
-            matrix[i][j] = value;
+            matrix[i][j] = rand() % 100;
         }
-    }
 }
 
-void print_matrix(int **matrix, int n, char *matrix_name) {
+void print_matrix(int matrix[][n], char *matrix_name) {
     int value;
-    printf("\nMatrix %s:\n", matrix_name);
+    printf("\n==========================\nMatrix %s:\n", matrix_name);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) printf("%d ", matrix[i][j]);
         printf("\n");
@@ -24,14 +20,7 @@ void print_matrix(int **matrix, int n, char *matrix_name) {
     printf("\n");
 }
 
-int **create_matrix(int n) {
-    int **matrix = malloc(sizeof(int *) * n);
-    for (int i = 0; i < n; i++) matrix[i] = malloc(sizeof(int) * n);
-    return matrix;
-}
-
-int **multiply_matrices(int **matrix_a, int **matrix_b, int n) {
-    int **result = create_matrix(n);
+void multiply_matrices(int matrix_a[][n], int matrix_b[][n], int result[][n]) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             result[i][j] = 0;
@@ -39,5 +28,4 @@ int **multiply_matrices(int **matrix_a, int **matrix_b, int n) {
                 result[i][j] += matrix_a[i][k] * matrix_b[k][j];
         }
     }
-    return result;
 }
