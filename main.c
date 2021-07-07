@@ -7,6 +7,7 @@
 int n;
 
 void ask_n(int *n) {
+    printf("Digite o tamanho da matriz NxN: ");
     scanf("%d", n);
     if (*n < 1) {
         printf("Valor inválido: %d\n", *n);
@@ -51,7 +52,6 @@ void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
 }
 
 int main() {
-    printf("Digite o tamanho da matriz NxN: ");
     ask_n(&n);
 
     int matrix_a[n][n];
