@@ -5,9 +5,8 @@
 
 void populate_matrix(int matrix[][n]) {
     for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++) {
+        for (int j = 0; j < n; j++)
             matrix[i][j] = rand() % 100;
-        }
 }
 
 void print_matrix(int matrix[][n], char *matrix_name) {

@@ -6,17 +6,17 @@
 
 int n;
 
-void ask_n(int *n) {
+void ask_n() {
     printf("Digite o tamanho da matriz NxN: ");
-    scanf("%d", n);
-    if (*n < 1) {
-        printf("Valor inválido: %d\n", *n);
+    scanf("%d", &n);
+    if (n < 1) {
+        printf("Valor inválido: %d\n", n);
         exit(-1);
     }
 }
 
 void print_elapsed_time(clock_t time) {
-    printf("Tempo gasto: %0.5f ms\n", ((double)time) / CLOCKS_PER_SEC * 1000);
+    printf("Tempo gasto: %f ms\n", ((double)time) / CLOCKS_PER_SEC * 1000);
 }
 
 /**
@@ -35,12 +35,21 @@ void run_c(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     print_elapsed_time(elapsed_time);
 }
 
+void to_zero(int matrix_a[][n]) {
+    for (int i = 0; i< n;i++) 
+    for (int j = 0; j< n;j++) 
+        matrix_a[i][j] = 0;
+}
+
 /**
  * Prints A x B x C and elapsed time using NASM language
  */
 void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     int result_a_b[n][n];
     int result_ab_c[n][n];
+
+    to_zero(result_a_b);
+    to_zero(result_ab_c);
 
     clock_t elapsed_time = clock();
     multiply_matrices_nasm(matrix_a, matrix_b, result_a_b, n);
@@ -52,15 +61,16 @@ void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
 }
 
 int main() {
-    ask_n(&n);
+    // ask_n();
+    n = 2;
 
-    int matrix_a[n][n];
-    int matrix_b[n][n];
-    int matrix_c[n][n];
+    int matrix_a[2][2] = {{1,2},{3,4}};
+    int matrix_b[2][2] = {{1,2},{3,4}};
+    int matrix_c[2][2] = {{1,1},{1,1}};
 
-    populate_matrix(matrix_a);
-    populate_matrix(matrix_b);
-    populate_matrix(matrix_c);
+    // populate_matrix(matrix_a);
+    // populate_matrix(matrix_b);
+    // populate_matrix(matrix_c);
 
     print_matrix(matrix_a, "A");
     print_matrix(matrix_b, "B");
