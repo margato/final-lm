@@ -5,18 +5,25 @@
 #include <time.h>
 
 int n;
+int show_matrix;
 
-void ask_n() {
+void ask_params() {
     printf("Digite o tamanho da matriz NxN: ");
     scanf("%d", &n);
     if (n < 1) {
         printf("Valor inválido: %d\n", n);
         exit(-1);
     }
+
+    char should_show_matrix;
+    printf("Deve mostrar matrizes? (s / n): ");
+    scanf(" %c", &should_show_matrix);
+    show_matrix = should_show_matrix == 's' ? 1 : 0;
+    printf("\n");
 }
 
-void print_elapsed_time(clock_t time) {
-    printf("Tempo gasto: %f ms\n", ((double)time) / CLOCKS_PER_SEC * 1000);
+void print_elapsed_time(char* language, clock_t time) {
+    printf("Tempo gasto (%s): %f ms\n", language, ((double)time) / CLOCKS_PER_SEC * 1000);
 }
 
 /**
@@ -33,9 +40,9 @@ void run_c(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     smallest = get_smallest_main_diagonal(result_ab_c);
     elapsed_time = clock() - elapsed_time;
 
-    print_matrix(result_ab_c, "A x B x C (C)");
-    printf("Menor valor encontrado na diagonal principal: %d\n\n", smallest);
-    print_elapsed_time(elapsed_time);
+    if (show_matrix) print_matrix(result_ab_c, "A x B x C (C)");
+    printf("Menor valor encontrado na diagonal principal: %d\n", smallest);
+    print_elapsed_time("C", elapsed_time);
 }
 
 void to_zero(int matrix_a[][n]) {
@@ -60,16 +67,20 @@ void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     smallest = get_smallest_main_diagonal_nasm(result_ab_c, n);
     elapsed_time = clock() - elapsed_time;
 
-    print_matrix(result_ab_c, "A x B x C (nasm)");
-    printf("Menor valor encontrado na diagonal principal: %d\n\n", smallest);
-    print_elapsed_time(elapsed_time);
+    if (show_matrix) print_matrix(result_ab_c, "A x B x C (nasm)");
+    printf("Menor valor encontrado na diagonal principal: %d\n", smallest);
+    print_elapsed_time("nasm", elapsed_time);
 }
 
 int main(int argc, char** argv) {
+    show_matrix = 0;
     if (argc == 2) {
         n = atoi(argv[1]);
+    } else if (argc == 3) {
+        n = atoi(argv[1]);
+        show_matrix = argv[2][0] == 's' ? 1 : 0;
     } else {
-        ask_n();
+        ask_params();
     }
     if (n > 645) {
         printf("Valor máximo permitido: 645");
@@ -85,11 +96,14 @@ int main(int argc, char** argv) {
     populate_matrix(matrix_b);
     populate_matrix(matrix_c);
 
-    print_matrix(matrix_a, "A");
-    print_matrix(matrix_b, "B");
-    print_matrix(matrix_c, "C");
+    if (show_matrix) {
+        print_matrix(matrix_a, "A");
+        print_matrix(matrix_b, "B");
+        print_matrix(matrix_c, "C");
+    }
 
     run_c(matrix_a, matrix_b, matrix_c);
+    printf("\n");
     run_nasm(matrix_a, matrix_b, matrix_c);
 
     return 0;

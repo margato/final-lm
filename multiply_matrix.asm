@@ -64,10 +64,10 @@ multiply_matrices_nasm:
                 jge end_loop_k                          ;  goto end_loop_k
 
                 get_value_from_matrix i, k, matrix_a    ; returns matrix_a[i][k] in ebx
-                mov aux, ebx                            ; push matrix_a[i][k]
+                mov aux, ebx                            ; save ebx in aux (stack)
 
-                get_value_from_matrix k, j, matrix_b    ; returns matrix_a[k][j] in ebx
-                mov ecx, aux
+                get_value_from_matrix k, j, matrix_b    ; returns matrix_b[k][j] in ebx
+                mov ecx, aux                            ; value obtained from matrix_a
 
                 imul ebx, ecx                           ; ebx *= ecx
                 add sum, ebx                            ; sum += ebx
