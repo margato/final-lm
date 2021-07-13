@@ -36,9 +36,8 @@ void run_c(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
 }
 
 void to_zero(int matrix_a[][n]) {
-    for (int i = 0; i< n;i++) 
-    for (int j = 0; j< n;j++) 
-        matrix_a[i][j] = 0;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++) matrix_a[i][j] = 0;
 }
 
 /**
@@ -60,17 +59,24 @@ void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     print_elapsed_time(elapsed_time);
 }
 
-int main() {
-    // ask_n();
-    n = 2;
+int main(int argc, char** argv) {
+    if (argc == 2) {
+        n = atoi(argv[1]);
+    } else {
+        ask_n();
+    }
+    if (n > 645) {
+        printf("Valor máximo permitido: 645");
+        exit(1);
+    }
 
-    int matrix_a[2][2] = {{1,2},{3,4}};
-    int matrix_b[2][2] = {{1,2},{3,4}};
-    int matrix_c[2][2] = {{1,1},{1,1}};
+    int matrix_a[n][n];
+    int matrix_b[n][n];
+    int matrix_c[n][n];
 
-    // populate_matrix(matrix_a);
-    // populate_matrix(matrix_b);
-    // populate_matrix(matrix_c);
+    populate_matrix(matrix_a);
+    populate_matrix(matrix_b);
+    populate_matrix(matrix_c);
 
     print_matrix(matrix_a, "A");
     print_matrix(matrix_b, "B");
