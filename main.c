@@ -25,13 +25,16 @@ void print_elapsed_time(clock_t time) {
 void run_c(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     int result_a_b[n][n];
     int result_ab_c[n][n];
+    int smallest;
 
     clock_t elapsed_time = clock();
     multiply_matrices(matrix_a, matrix_b, result_a_b);
     multiply_matrices(result_a_b, matrix_c, result_ab_c);
+    smallest = get_smallest_main_diagonal(result_ab_c);
     elapsed_time = clock() - elapsed_time;
 
     print_matrix(result_ab_c, "A x B x C (C)");
+    printf("Menor valor encontrado na diagonal principal: %d\n\n", smallest);
     print_elapsed_time(elapsed_time);
 }
 
@@ -46,6 +49,7 @@ void to_zero(int matrix_a[][n]) {
 void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     int result_a_b[n][n];
     int result_ab_c[n][n];
+    int smallest = -1;
 
     to_zero(result_a_b);
     to_zero(result_ab_c);
@@ -53,9 +57,11 @@ void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     clock_t elapsed_time = clock();
     multiply_matrices_nasm(matrix_a, matrix_b, result_a_b, n);
     multiply_matrices_nasm(result_a_b, matrix_c, result_ab_c, n);
+    smallest = get_smallest_main_diagonal_nasm(result_ab_c, n);
     elapsed_time = clock() - elapsed_time;
 
     print_matrix(result_ab_c, "A x B x C (nasm)");
+    printf("Menor valor encontrado na diagonal principal: %d\n\n", smallest);
     print_elapsed_time(elapsed_time);
 }
 
@@ -74,6 +80,7 @@ int main(int argc, char** argv) {
     int matrix_b[n][n];
     int matrix_c[n][n];
 
+    srand(time(NULL));
     populate_matrix(matrix_a);
     populate_matrix(matrix_b);
     populate_matrix(matrix_c);

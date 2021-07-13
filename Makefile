@@ -7,10 +7,11 @@ default:
 	@echo "make: correct usage: make main"
 	@exit 1
 
-matrix_assembly_nasm.o:
-	nasm -f elf -o matrix_assembly_nasm.o matrix.asm
+%_nasm.o:
+	nasm -f elf -o multiply_matrix_nasm.o multiply_matrix.asm 
+	nasm -f elf -o get_smallest_main_diagonal_nasm.o get_smallest_main_diagonal.asm 
 
-main: main.o matrix.o matrix_assembly_nasm.o
+main: main.o matrix.o multiply_matrix_nasm.o get_smallest_main_diagonal_nasm.o
 	$(LD) $(LDFLAGS) -o $@ $^ 
 
 clean:
