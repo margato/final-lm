@@ -43,15 +43,15 @@ global multiply_matrices_nasm
 multiply_matrices_nasm:
     push ebx
     push ebp
-    mov ebp, esp                                ; save esp
+    mov ebp, esp                                        ; save esp
 
-    mov edx, n                                  ; n
-    mov i, 0                                    ; i = 0
+    mov edx, n                                          ; n
+    mov i, 0                                            ; i = 0
     loop_i:
         mov ecx, i
-        cmp ecx, edx                            ; i >= n:
-        jge end_multiply_matrices_nasm          ;  goto end
-        mov j, 0                                ; j = 0   
+        cmp ecx, edx                                    ; i >= n:
+        jge end_multiply_matrices_nasm                  ;  goto end
+        mov j, 0                                        ; j = 0   
         loop_j:
             mov ecx, j
             cmp ecx, edx                                ; j >= n:
@@ -69,24 +69,24 @@ multiply_matrices_nasm:
                 get_value_from_matrix k, j, matrix_b    ; returns matrix_a[k][j] in ebx
                 mov ecx, aux
 
-                imul ebx, ecx                         ; ebx *= ecx
+                imul ebx, ecx                           ; ebx *= ecx
                 add sum, ebx                            ; sum += ebx
             
-                inc k                           ; k++
+                inc k                                   ; k++
                 jmp loop_k
 
                 end_loop_k:
-                get_offset i, j
+                get_offset i, j                         ;
                 mov ecx, result_matrix
                 mov ebx, sum
-                mov [ecx + eax], ebx                  ; result[i][j] = sum
-                inc j                                 ; j++
+                mov [ecx + eax], ebx                    ; result[i][j] = sum
+                inc j                                   ; j++
                 jmp loop_j
         end_loop_j:
-            inc i                               ; i++
+            inc i                                       ; i++
             jmp loop_i
 end_multiply_matrices_nasm:
-    mov esp, ebp                                ; restore esp
+    mov esp, ebp                                        ; restore esp
     pop ebp      
     pop ebx                               
     ret                             

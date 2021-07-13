@@ -1,6 +1,5 @@
 SECTION .text
 global get_smallest_main_diagonal_nasm
-
 ; int get_smallest_main_diagonal(int matrix[][n]) {
 ;     int smaller = matrix[0][0];
 ;     for (int i = 0; i < n; i++) {
@@ -43,48 +42,39 @@ get_smallest_main_diagonal_nasm:
     push ebp
     mov ebp, esp                                ; save esp
 
-    ; mov edx, n                                  ; n
-    ; mov i, 0                                    ; i = 0
-    ; loop_i:
-    ;     mov ecx, i
-    ;     cmp ecx, edx                            ; i >= n:
-    ;     jge end_multiply_matrices_nasm          ;  goto end
-    ;     mov j, 0                                ; j = 0   
-    ;     loop_j:
-    ;         mov ecx, j
-    ;         cmp ecx, edx                                ; j >= n:
-    ;         jge end_loop_j                              ;  goto loop i
-    ;         mov sum, 0                                  ; sum = 0
-    ;         mov k, 0                                    ; k = 0     
-    ;         loop_k:
-    ;             mov ecx, k
-    ;             cmp ecx, edx                            ; k >= n:
-    ;             jge end_loop_k                          ;  goto end_loop_k
+    mov edx, n                                  ; n
+    mov ecx, matrix
+    mov ecx, [ecx]
+    mov smallest, ecx                         ; smallest = matrix[0][0]
 
-    ;             get_value_from_matrix i, k, matrix_a    ; returns matrix_a[i][k] in ebx
-    ;             mov aux, ebx                            ; push matrix_a[i][k]
-
-    ;             get_value_from_matrix k, j, matrix_b    ; returns matrix_a[k][j] in ebx
-    ;             mov ecx, aux
-
-    ;             imul ebx, ecx                         ; ebx *= ecx
-    ;             add sum, ebx                            ; sum += ebx
+    mov i, 0                                    ; i = 0
+    loop_i:
+        mov ecx, i
+        cmp ecx, edx                            ; i >= n:
+        jge end_multiply_matrices_nasm          ;  goto end
+        mov j, -1                               ; j = 0   
+        loop_j:
+            inc j
+            mov ecx, j
+            cmp ecx, edx                        ; j >= n:
+            jge end_loop_j                      ;  goto loop i
             
-    ;             inc k                           ; k++
-    ;             jmp loop_k
+            mov ebx, i                          ; ebx = i
+            cmp ebx, ecx                        ; i != j
+            jne loop_j                          ; goto loop_j
 
-    ;             end_loop_k:
-    ;             get_offset i, j
-    ;             mov ecx, result_matrix
-    ;             mov ebx, sum
-    ;             mov [ecx + eax], ebx                  ; result[i][j] = sum
-    ;             inc j                                 ; j++
-    ;             jmp loop_j
-    ;     end_loop_j:
-    ;         inc i                               ; i++
-    ;         jmp loop_i
+            get_value_from_matrix i, j, matrix  ; ebx = matrix[i][j]
+            mov eax, smallest                   
+            cmp eax, ebx                        ; smallest < matrix[i][j]
+            jl loop_j                           ;   goto loop_j
+
+            mov smallest, ebx                   ; smallest = matrix[i][j]
+            jmp loop_j                          ; goto loop_j
+        end_loop_j:
+            inc i                               ; i++
+            jmp loop_i
 end_multiply_matrices_nasm:
-    mov eax, -2
+    mov eax, smallest
     mov esp, ebp                                ; restore esp
     pop ebp      
     pop ebx                               
