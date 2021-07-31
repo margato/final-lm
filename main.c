@@ -72,6 +72,28 @@ void run_nasm(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     print_elapsed_time("nasm", elapsed_time);
 }
 
+void run_gas(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
+    int result_a_b[n][n];
+    int result_ab_c[n][n];
+    int smallest = -1;
+
+
+    clock_t elapsed_time = clock();
+    // to_zero(result_a_b);
+    multiply_matrices_gas(matrix_a, matrix_b, result_a_b, n);
+    // to_zero(result_ab_c);
+    multiply_matrices_gas(result_a_b, matrix_c, result_ab_c, n);
+    smallest = get_smallest_main_diagonal_gas(result_ab_c, n);
+    elapsed_time = clock() - elapsed_time;
+
+    
+    
+
+    if (show_matrix) print_matrix(result_ab_c, "A x B x C (gas)");
+    printf("Menor valor encontrado na diagonal principal: %d\n", smallest);
+    print_elapsed_time("gas", elapsed_time);
+}
+
 int main(int argc, char** argv) {
     show_matrix = 0;
     if (argc == 2) {
@@ -105,6 +127,8 @@ int main(int argc, char** argv) {
     run_c(matrix_a, matrix_b, matrix_c);
     printf("\n");
     run_nasm(matrix_a, matrix_b, matrix_c);
+    printf("\n");
+    run_gas(matrix_a, matrix_b, matrix_c);
 
     return 0;
 }
