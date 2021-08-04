@@ -44,6 +44,7 @@ multiply_matrices_nasm:
     push ebx
     push ebp
     mov ebp, esp                                        ; save esp
+    sub esp, 20                                         ; allocate 20 bytes to use as local variables
 
     mov edx, n                                          ; n
     mov i, 0                                            ; i = 0

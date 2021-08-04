@@ -44,6 +44,7 @@ multiply_matrices_gas:
     push %ebx
     push %ebp
     mov %esp, %ebp                                              # save esp
+    subl $20, %esp                                              # allocate 20 bytes to use as local variables
 
     mov 24(%ebp), %edx                                          # n
     movl $0, -4(%ebp)                                           # i = 0

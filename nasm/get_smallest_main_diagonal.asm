@@ -38,6 +38,8 @@ get_smallest_main_diagonal_nasm:
     push ebx
     push ebp
     mov ebp, esp                                ; save esp
+    sub esp, 8                                  ; allocate 8 bytes to use as local variables
+
 
     mov edx, n                                  ; n
     mov ecx, matrix
