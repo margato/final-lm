@@ -1,5 +1,5 @@
-.section .text
-.globl get_smallest_main_diagonal_gas
+.text
+.global get_smallest_main_diagonal_gas
 #  int get_smallest_main_diagonal(int matrix[][n]) {
 #      int smaller = matrix[0][0]; 
 #      for (int i = 0;  i < n;  i++) {
