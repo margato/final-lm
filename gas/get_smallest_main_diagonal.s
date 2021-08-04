@@ -39,7 +39,7 @@ get_smallest_main_diagonal_gas:
     pushl %ebx
     pushl %ebp
     movl %esp, %ebp                                                       #  save esp
-    subl $4, %esp                                                         # allocate 20 bytes to use as local variables
+    subl $4, %esp                                                         # allocate 4 bytes to use as local variables
 
     movl 16(%ebp), %edx                                                   #  n
     movl 12(%ebp), %ecx
