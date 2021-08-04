@@ -9,7 +9,6 @@ void populate_matrix(int matrix[][n]) {
 }
 
 void print_matrix(int matrix[][n], char *matrix_name) {
-    int value;
     printf("\n______________________\n\nMatrix %s:\n", matrix_name);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) printf("%0d ", matrix[i][j]);

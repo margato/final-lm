@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-m32 -g -I ./include
+CFLAGS=-m32 -Wall -g -I ./include
 LD=$(CC)
 LDFLAGS=-m32
 
@@ -19,4 +19,4 @@ main: main.o matrix.o multiply_matrix_nasm.o get_smallest_main_diagonal_nasm.o m
 	$(LD) $(LDFLAGS) -o $@ $^ 
 
 clean:
-	$(RM) *.o main
+	$(RM) *.o main a.out

@@ -77,17 +77,14 @@ void run_gas(int matrix_a[][n], int matrix_b[][n], int matrix_c[][n]) {
     int result_ab_c[n][n];
     int smallest = -1;
 
+    to_zero(result_a_b);
+    to_zero(result_ab_c);
 
     clock_t elapsed_time = clock();
-    // to_zero(result_a_b);
     multiply_matrices_gas(matrix_a, matrix_b, result_a_b, n);
-    // to_zero(result_ab_c);
     multiply_matrices_gas(result_a_b, matrix_c, result_ab_c, n);
     smallest = get_smallest_main_diagonal_gas(result_ab_c, n);
-    elapsed_time = clock() - elapsed_time;
-
-    
-    
+    elapsed_time = clock() - elapsed_time;  
 
     if (show_matrix) print_matrix(result_ab_c, "A x B x C (gas)");
     printf("Menor valor encontrado na diagonal principal: %d\n", smallest);
