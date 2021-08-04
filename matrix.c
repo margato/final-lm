@@ -30,10 +30,8 @@ void multiply_matrices(int matrix_a[][n], int matrix_b[][n], int result[][n]) {
 int get_smallest_main_diagonal(int matrix[][n]) {
     int smallest = matrix[0][0];
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n ; j++) {
-            if (i == j && matrix[i][j] < smallest) {
-                smallest = matrix[i][j];
-            }
+        if (matrix[i][i] < smallest) {
+            smallest = matrix[i][i];
         }
     }
     return smallest;
